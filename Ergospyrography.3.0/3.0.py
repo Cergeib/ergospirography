@@ -82,7 +82,6 @@ def start_program():
     # Поиск максимального числового значения в отфильтрованных значениях столбца 'ЧСС'
     max_hr_value1 = filtered_values1.max()
 
-    ###############################
     # Поиск значения времени, соответствующего первому числовому значению в столбце 'ЧСС'
     time_value = time_column.loc[hr_column == max_hr_value].iloc[0]
     # Получение индекса строки с найденным значением времени
@@ -113,7 +112,7 @@ def start_program():
     # Выбор значений в найденной строке, начиная с третьего столбца
     result = df.iloc[closest_time_index][2:]
 
-    ############################
+    
     # Вычисление количества строк для расчета
     start_index = min(time_index, closest_time_index)
     end_index = max(time_index, closest_time_index)
@@ -122,7 +121,7 @@ def start_program():
     # Вычисление средних значений для выбранных строк
     mean_values2 = df.iloc[start_index:end_index + 1, 2:].mean()
 
-    #########################3
+    
     # Поиск последнего числового значения в столбце 'ЧСС'
     last_hr_value = hr_column[hr_column.apply(lambda x: isinstance(x, (int, float)) and not np.isnan(x))].iloc[-1]
     # Вывод результата на экран
@@ -148,8 +147,7 @@ def start_program():
     mean_values3 = df.iloc[start_index:end_index + 1, 2:].mean()
     # Вывод средних значений на экран с названиями показателей
 
-    #####################
-
+    
     # Создание списка названий колонок
     columns = ['',
                'ЧСС ',
@@ -186,7 +184,7 @@ def start_program():
     df.loc[2] = ['МПК'] + [None] * (len(columns) - 1)
     df.loc[3] = ['ПЛАТО'] + [None] * (len(columns) - 1)
 
-    ######################
+    
     # Удаление пробелов с начала и конца названий столбцов в датафрейме
     df.columns = df.columns.str.strip()
 
@@ -195,13 +193,14 @@ def start_program():
     mean_values1.index = mean_values.index.str.strip()
     mean_values2.index = mean_values.index.str.strip()
     mean_values3.index = mean_values.index.str.strip()
-    #################
+
+    
     # Добавление средних значений в датафрейм
     df.iloc[0, 1:] = mean_values.values
     df.iloc[1, 1:] = mean_values1.values
     df.iloc[2, 1:] = mean_values2.values
     df.iloc[3, 1:] = mean_values3.values
-    #####################
+    
 
     end_time = time.time()
 
@@ -213,13 +212,11 @@ def start_program():
 
     if filename:
 
-
         # Получение пути к папке сохранения
         folder_path = os.path.dirname(filename)
 
         # Создание полного пути к новому файлу
         new_file_path = os.path.join(folder_path, os.path.basename(filename))
-
 
         # Сохранение датафрейма в файл Excel
         df.to_excel(new_file_path, index=False)
